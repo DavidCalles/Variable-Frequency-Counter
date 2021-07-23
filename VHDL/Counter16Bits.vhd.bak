@@ -1,0 +1,68 @@
+-- Keypad_FSM.vhd
+
+--***********************************************************************
+--	Description: 
+--	
+--	Inputs: 		
+--					
+--	Outputs: 	
+--***********************************************************************
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+USE IEEE.std_logic_arith.ALL;
+
+-- Entity declaration
+
+ENTITY DCalles_Lab7_SevenSegments IS
+
+	PORT (
+		clk 		: IN STD_LOGIC;
+		reset		: IN STD_LOGIC
+		count		: OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+	);
+
+END DCalles_Lab7_SevenSegments;
+
+-- Architecture definition
+
+ARCHITECTURE Behavioral OF DCalles_Lab7_SevenSegments IS
+
+	--------------------------------------------------------------------------
+	---------------- COMPONENTS DEFINED IN SEPARATE FILES --------------------
+	--------------------------------------------------------------------------
+
+	-- Integer to 7segment decoder
+	COMPONENT SevenSegments
+		PORT (
+			binNumber : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			segmentLed : OUT STD_LOGIC_VECTOR(6 DOWNTO 0));
+	END COMPONENT;
+	
+
+	--------------------------------------------------------------------------
+	------------------------- INTERMEDIATE SIGNALS ---------------------------
+	--------------------------------------------------------------------------
+
+	SIGNAL segmentSignal 	: STD_LOGIC_VECTOR(6 DOWNTO 0);
+	SIGNAL numberIntSignal	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL cleanKeysSignal	: STD_LOGIC_VECTOR(6 DOWNTO 0);
+	SIGNAL RowColumnSignal	: STD_LOGIC_VECTOR(6 DOWNTO 0);
+	--SIGNAL RCActiveLowSignal: STD_LOGIC_VECTOR(6 DOWNTO 0);
+
+BEGIN
+
+	--------------------------------------------------------------------------
+	-------------------------- COMPONENTS MAPPING ----------------------------
+	--------------------------------------------------------------------------	
+	
+	-- 7 segments
+	SevenSegments1 : SevenSegments
+	PORT MAP(numberIntSignal, segmentSignal);
+	
+	-- outputs
+	segments7 <= segmentSignal;
+
+
+END;

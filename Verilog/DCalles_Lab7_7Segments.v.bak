@@ -1,0 +1,113 @@
+// DCalles_Lab7_7Segments.vhd
+
+/************************************************************************
+--	Description: 
+--	
+--	Inputs: 		
+--					
+--	Outputs: 	
+--**********************************************************************/
+
+// Entity declaration
+
+module DCalles_Lab7_SevenSegments(
+
+		input clk,
+		input reset,
+		input [9:0] clkFactor,
+		output [6:0] segment0,
+		output [6:0] segment1,	
+		output [6:0] segment2,
+		output [6:0] segment3,	
+		output [6:0] segment4
+	);
+
+
+
+// Architecture definition
+	
+/*------------------------------------------------------------------------
+------------------------- INTERMEDIATE SIGNALS ---------------------------
+------------------------------------------------------------------------*/
+
+	wire [6:0] segment0Signal;
+	wire [6:0] segment1Signal;
+	wire [6:0] segment2Signal;
+	wire [6:0] segment3Signal;
+	wire [6:0] segment4Signal;
+	
+	wire [3:0] digit0Signal;
+	wire [3:0] digit1Signal;
+	wire [3:0] digit2Signal;
+	wire [3:0] digit3Signal;
+	wire [3:0] digit4Signal;
+	
+	wire countSignal : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	
+	wire dividedclkSignal	: STD_LOGIC;
+BEGIN
+
+	--------------------------------------------------------------------------
+	-------------------------- COMPONENTS MAPPING ----------------------------
+	--------------------------------------------------------------------------	
+	
+	-- 7 segments
+	SevenSegments0 : SevenSegments
+	PORT MAP(digit0Signal, segment0Signal);
+	
+	-- 7 segments
+	SevenSegments1 : SevenSegments
+	PORT MAP(digit1Signal, segment1Signal);
+	
+	-- 7 segments
+	SevenSegments2 : SevenSegments
+	PORT MAP(digit2Signal, segment2Signal);
+	
+	-- 7 segments
+	SevenSegments3 : SevenSegments
+	PORT MAP(digit3Signal, segment3Signal);
+	
+	-- 7 segments
+	SevenSegments4 : SevenSegments
+	PORT MAP(digit4Signal, segment4Signal);
+	
+	
+	-- 16 bits counter
+	Counter16Bits0 : Counter16Bits
+	PORT MAP(dividedclkSignal, reset, countSignal);
+	
+	-- Clock divider
+	FreqDivider0 : FreqDivider
+	PORT MAP(clk, reset, clkFactor, dividedclkSignal);
+	
+	-- Module Division
+	ModuleDivision0 : ModuleDivision
+	PORT MAP(countSignal, x"0001", x"000A", digit0Signal);
+	
+		-- Module Division
+	ModuleDivision1 : ModuleDivision
+	PORT MAP(countSignal, x"000A", x"000A", digit1Signal);
+	
+		-- Module Division
+	ModuleDivision2 : ModuleDivision
+	PORT MAP(countSignal, x"0064", x"000A", digit2Signal);
+	
+		-- Module Division
+	ModuleDivision3 : ModuleDivision
+	PORT MAP(countSignal, x"03E8", x"000A", digit3Signal);
+	
+		-- Module Division
+	ModuleDivision4 : ModuleDivision
+	PORT MAP(countSignal, x"2710", x"000A", digit4Signal);
+	
+	
+	
+	-- outputs
+	segment0 <= segment0Signal;
+	segment1 <= segment1Signal;
+	segment2 <= segment2Signal;
+	segment3 <= segment3Signal;
+	segment4 <= segment4Signal;
+
+
+END;

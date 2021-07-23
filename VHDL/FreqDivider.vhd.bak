@@ -1,0 +1,68 @@
+-- Keypad_FSM.vhd
+
+--***********************************************************************
+--	Description: 
+--	
+--	Inputs: 		
+--					
+--	Outputs: 	
+--***********************************************************************
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+USE IEEE.std_logic_arith.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.all;
+
+-- Entity declaration
+
+ENTITY Counter16Bits IS
+
+	PORT (
+		clk 		: IN STD_LOGIC;
+		reset		: IN STD_LOGIC;
+		count		: OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+	);
+
+END Counter16Bits;
+
+-- Architecture definition
+
+ARCHITECTURE Behavioral OF Counter16Bits IS
+	
+
+	--------------------------------------------------------------------------
+	------------------------- INTERMEDIATE SIGNALS ---------------------------
+	--------------------------------------------------------------------------
+
+	SIGNAL countSignal 	: STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+	--SIGNAL RCActiveLowSignal: STD_LOGIC_VECTOR(6 DOWNTO 0);
+
+BEGIN
+
+	--------------------------------------------------------------------------
+	-------------------------- COMPONENTS MAPPING ----------------------------
+	--------------------------------------------------------------------------	
+	
+	process (clk)
+	begin
+	
+		if rising_edge(clk) then
+		
+			if (reset = '0') then 
+				countSignal <= x"0000";
+				
+			else
+				countSignal <= countSignal + x"0001";
+			end if;
+			
+		end if;
+	
+	end process;
+	
+	-- outputs
+	count <= countSignal;
+
+
+END;

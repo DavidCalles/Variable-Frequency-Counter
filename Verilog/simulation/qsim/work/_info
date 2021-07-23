@@ -1,0 +1,59 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/yodav/Documents/Conestoga_College/FIRST_TERM/Digital_Design/LABS/Lab7/Verilog/simulation/qsim
+vDCalles_Lab7_7Segments
+Z1 !s110 1627008066
+!i10b 1
+!s100 l6Zb]bbnXFMbLZGOX3>_M0
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+INgTR_>F`oUim5cmMi]@jS2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1627008065
+8DCalles_Lab7_7Segments.vo
+FDCalles_Lab7_7Segments.vo
+!i122 24
+L0 32 53554
+Z4 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z5 !s108 1627008066.000000
+!s107 DCalles_Lab7_7Segments.vo|
+!s90 -work|work|DCalles_Lab7_7Segments.vo|
+!i113 1
+Z6 o-work work
+Z7 tCvgOpt 0
+n@d@calles_@lab7_7@segments
+vDCalles_Lab7_7Segments_vlg_vec_tst
+R1
+!i10b 1
+!s100 R`a=2;Ln48?c2iN5TS5X[3
+R2
+IaBAVEoPWiXXzbP043l=l^0
+R3
+R0
+w1627008063
+8Waveform.vwf.vt
+FWaveform.vwf.vt
+!i122 25
+L0 30 96
+R4
+r1
+!s85 0
+31
+R5
+!s107 Waveform.vwf.vt|
+!s90 -work|work|Waveform.vwf.vt|
+!i113 1
+R6
+R7
+n@d@calles_@lab7_7@segments_vlg_vec_tst

@@ -1,0 +1,96 @@
+-- Keypad_FSM.vhd
+
+--***********************************************************************
+--	Description: 
+--	
+--	Inputs: 		
+--					
+--	Outputs: 	
+--***********************************************************************
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+USE IEEE.std_logic_arith.ALL;
+
+-- Entity declaration
+
+ENTITY Keypad_FSM IS
+
+	PORT (
+		clk 			: IN STD_LOGIC;
+		reset			: IN STD_LOGIC;
+		keypad_raw	: INOUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+		segments7	: OUT STD_LOGIC_VECTOR(6 DOWNTO 0)			
+	);
+
+END Keypad_FSM;
+
+-- Architecture definition
+
+ARCHITECTURE Behavioral OF Keypad_FSM IS
+
+	--------------------------------------------------------------------------
+	---------------- COMPONENTS DEFINED IN SEPARATE FILES --------------------
+	--------------------------------------------------------------------------
+
+	-- Integer to 7segment decoder
+	COMPONENT SevenSegments
+		PORT (
+			binNumber : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			segmentLed : OUT STD_LOGIC_VECTOR(6 DOWNTO 0));
+	END COMPONENT;
+	
+	-- Key to integer decoder
+	COMPONENT KeypadDecoder
+		PORT (
+			keys		: in std_logic_vector(6 downto 0);    
+         number	: out std_logic_vector(3 downto 0));
+	END COMPONENT;
+	
+	-- Keypad hardware reader
+	COMPONENT KeyReaderFSM
+		PORT (
+			clock		: in std_logic;
+			reset		: in std_logic;
+			keysBidir: inout std_logic_vector(6 downto 0);    
+         keysOut	: out std_logic_vector(6 downto 0));
+	END COMPONENT;
+
+
+	--------------------------------------------------------------------------
+	------------------------- INTERMEDIATE SIGNALS ---------------------------
+	--------------------------------------------------------------------------
+
+	SIGNAL segmentSignal 	: STD_LOGIC_VECTOR(6 DOWNTO 0);
+	SIGNAL numberIntSignal	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL cleanKeysSignal	: STD_LOGIC_VECTOR(6 DOWNTO 0);
+	SIGNAL RowColumnSignal	: STD_LOGIC_VECTOR(6 DOWNTO 0);
+	--SIGNAL RCActiveLowSignal: STD_LOGIC_VECTOR(6 DOWNTO 0);
+
+BEGIN
+
+	--------------------------------------------------------------------------
+	-------------------------- COMPONENTS MAPPING ----------------------------
+	--------------------------------------------------------------------------	
+	
+	-- No debouncing
+	--cleanKeysSignal <= keypad_raw;
+	
+	-- keypad hardware reader
+	KeyReaderFSM1 : KeyReaderFSM
+	PORT MAP(clk, reset, keypad_raw, RowColumnSignal);
+	
+		-- column+row to integer decoder
+	KeypadDecoder1 : KeypadDecoder
+	PORT MAP(not RowColumnSignal, numberIntSignal);
+	
+	-- 7 segments
+	SevenSegments1 : SevenSegments
+	PORT MAP(numberIntSignal, segmentSignal);
+	
+	-- outputs
+	segments7 <= segmentSignal;
+
+
+END;

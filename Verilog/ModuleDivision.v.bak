@@ -1,0 +1,46 @@
+// ModuleDivision.vhd
+
+/************************************************************************
+--	Description: 
+--	
+--	Inputs: 		
+--					
+--	Outputs: 	
+--**********************************************************************/
+
+module ModuleDivision is
+    port ( 
+        number		: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		  divider	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		  module		: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+        result		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+		  
+    );
+end ModuleDivision;
+
+architecture Behavioral of ModuleDivision is
+	
+	signal numberSignal 	: integer range 0 to 65535 := 1;
+	signal dividerSignal : integer range 0 to 65535 := 1;
+	signal moduleSignal 	: integer range 0 to 65535 := 1;
+	
+	signal resultSignal: natural range 0 to 9 := 1;
+	 
+begin
+
+	process(number)
+	begin
+	-- Conversions
+		numberSignal <= to_integer(unsigned(number));
+		dividerSignal <= to_integer(unsigned(divider));
+		moduleSignal <= to_integer(unsigned(module));
+	
+	-- Actual operation	
+		resultSignal <= (numberSignal/dividerSignal) mod moduleSignal;
+	
+	-- Conversion to logic vector
+		result <= std_logic_vector(to_unsigned(resultSignal,result'LENGTH));	
+
+	end process;
+
+end Behavioral;
